@@ -1,0 +1,142 @@
+import axios from 'axios'
+
+const urlMetrics = "http://localhost:8080/metrics";
+
+const urlAquariums = "http://localhost:8080/aquariums";
+
+class   DataConnection
+{
+    async getAllMetrics()
+    {
+        try 
+        {
+            let response = await axios.get(urlMetrics);
+            return (response);
+        } 
+        catch (error) 
+        {
+            return (error.message);
+        }
+    }
+	
+
+    async getMetricById(id)
+    {
+        try 
+        {
+            let response = await axios.get(`${urlMetrics}/${id}`);
+            return (response);
+        } 
+        catch (error) 
+        {
+            return (error.message);
+        }
+    }
+
+    async deleteMetricById(id)
+    {
+        try 
+        {
+            let response = await axios.delete(`${urlMetrics}/delete/${id}`);
+            return (response);
+        } 
+        catch (error) 
+        {
+            return (error.message);
+        }
+    }
+
+	
+    async addMetric(metric)
+    {
+        try 
+        {
+            let response = await axios.post(urlMetrics, metric);
+            return (response);
+        } 
+        catch (error) 
+        {
+            return (error.message);
+        }
+    }
+
+    async updateMetric(id, metric)
+    {
+        try 
+        {
+            let response = await axios.put(`${urlMetrics}/update/${id}`, metric);
+            return (response);
+        } 
+        catch (error) 
+        {
+            return (error.message);
+        }
+    }
+
+    async getAllAquariums()
+    {
+        try 
+        {
+            let response = await axios.get(urlAquariums);
+            return (response);
+        } 
+        catch (error) 
+        {
+            return (error.message);
+        }
+    }
+	
+    async getAquariumById(id)
+    {
+        try 
+        {
+            let response = await axios.get(`${urlAquariums}/${id}`);
+            return (response);
+        } 
+        catch (error) 
+        {
+            return (error.message);
+        }
+    }
+
+    async deleteAquariumById(id)
+    {
+        try 
+        {
+            let response = await axios.delete(`${urlAquariums}/delete/${id}`);
+            return (response);
+        } 
+        catch (error) 
+        {
+            return (error.message);
+        }
+    }
+	
+    async addAquarium(aquarium)
+    {
+        try 
+        {
+            let response = await axios.post(urlAquariums, aquarium);
+            return (response);
+        } 
+        catch (error) 
+        {
+            return (error.message);
+        }
+    }
+
+    async updateAquarium(id, aquarium)
+    {
+        try 
+        {
+            let response = await axios.put(`${urlAquariums}/update/${id}`, aquarium);
+            return (response);
+        } 
+        catch (error) 
+        {
+            return (error.message);
+        }
+    }
+}
+
+export default new DataConnection();
