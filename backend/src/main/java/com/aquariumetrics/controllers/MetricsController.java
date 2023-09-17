@@ -29,7 +29,7 @@ public class MetricsController {
         return metricsService.deleteMetric(id);
     }
 
-    @PostMapping
+    @PostMapping(path = "/save")
     public String saveMetric(@RequestBody Metrics metric) {
         return (metricsService.saveMetric(metric));
     }
