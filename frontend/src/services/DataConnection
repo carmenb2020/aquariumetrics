@@ -51,7 +51,7 @@ class   DataConnection
     {
         try 
         {
-            let response = await axios.post(urlMetrics, metric);
+            let response = await axios.post(`${urlMetrics}/save`, metric);
             return (response);
         } 
         catch (error) 

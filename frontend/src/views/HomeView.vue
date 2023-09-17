@@ -3,7 +3,8 @@
   import { ref, onBeforeMount, computed } from 'vue';
   
   import Navbar from '../components/Navbar.vue'
-  import Card from '../components/Card.vue';
+  import Card from '../components/Card.vue'
+
   const aquariums = ref();
   const metrics = ref();
 
@@ -66,38 +67,5 @@
       </v-row>
     </v-container>
 
-
-
-
-    <!-- <ul class="cards" v-for="metric in metrics"> -->
-      <!-- <li>
-        <Card :metric="metric" :data="myObject"></Card>
-      </li>
-      
-    </ul> -->
   </main>
 </template>
-
-<style>
-  
-</style>
-<!-- 
-
-<v-container
-      class="bg-surface-variant mb-6"
-    >
-      <v-row
-        align="center"
-        no-gutters
-        style="height: 150px;"
-      >
-        <v-col
-          v-for="n in 3"
-          :key="n"
-        >
-          <v-sheet class="pa-2 ma-2">
-            .align-center
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container> -->

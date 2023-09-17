@@ -14,14 +14,6 @@ import { faPlus, faShower, faToilet, faSink, faBottleWater } from '@fortawesome/
 
 library.add(faPlus, faShower, faToilet, faSink, faBottleWater)
 
-
-import PrimeVue from 'primevue/config';
-//theme
-import "primevue/resources/themes/lara-light-indigo/theme.css";     
-    
-//core
-import "primevue/resources/primevue.min.css";
-
 // Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
@@ -33,11 +25,20 @@ const vuetify = createVuetify({
   directives,
 })
 
+
+//Datepicker
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
+//Maska
+// import Maska from 'maska';
+
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.use(PrimeVue)
 app.component('font-awesome-icon', FontAwesomeIcon)
+app.component('VueDatePicker', VueDatePicker)
 app.use(vuetify)
+// app.directive("maska", Maska.vMaska)
 app.mount('#app')

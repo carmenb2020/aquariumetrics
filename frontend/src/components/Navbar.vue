@@ -1,6 +1,6 @@
 <script setup>
-  import { watch } from 'vue';
-
+  import { RouterLink } from 'vue-router'
+  
   const props = defineProps({
     metrics:{
       type: Object,
@@ -38,12 +38,6 @@
           ></v-img>
         </template>
 
-        <!-- <template v-slot:prepend>
-          <v-app-bar-nav-icon>
-            
-          </v-app-bar-nav-icon>
-        </template> -->
-
         <v-app-bar-title>Aquarium Metrics</v-app-bar-title>
 
         <v-btn value="aquariums">
@@ -51,11 +45,18 @@
           <span class="text-subtitle-1">Aquariums</span>
         </v-btn>
 
-        <v-btn value="metrics">
-          <v-icon icon="mdi: mdi-waves"></v-icon>
-          <span class="text-subtitle-1">Metrics</span>
-        </v-btn>
 
+        <router-link to="/metrics" custom
+                v-slot="{ navigate }">
+          <v-btn value="metrics" @click="navigate"
+                role="link">
+             <v-icon icon="mdi: mdi-waves">
+            </v-icon>
+            <span class="text-subtitle-1">Metrics</span>
+          </v-btn>
+        </router-link>
+        
+        
         <v-btn value="graphics">
           <v-icon icon="mdi: mdi-chart-bar"></v-icon>
           <span class="text-subtitle-1">Graphics</span>
@@ -80,5 +81,4 @@
 
     </v-layout>
   </v-card>
-    
 </template>

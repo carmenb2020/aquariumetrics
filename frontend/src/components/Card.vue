@@ -48,7 +48,7 @@
             </v-btn>
         </v-card-actions>
 
-        <v-expand-transition>
+        <v-expand-transition mode="'out-in'">
             <v-card
                 v-if="reveal.value"
                 class="v-card--reveal"

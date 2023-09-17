@@ -49,12 +49,6 @@ h2 {
     margin: 0;
 }
 
-.centralize {
-    display: flex;
-    align-items: center;
-    justify-items: center;
-}
-
 p {
     margin: 0;
 }
