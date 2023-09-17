@@ -1,9 +1,10 @@
 <script setup>
   import DataConnection from '../services/DataConnection'
   import { ref, reactive, onBeforeMount } from 'vue'
-  import { RouterLink} from 'vue-router'
+  import { RouterLink, useRouter } from 'vue-router'
   import NavDecoration from '../components/NavDecoration.vue'
-  
+
+  const	router = useRouter();
   const aquariums = ref();
   const metrics = reactive({value:[]});
 
@@ -21,6 +22,16 @@
       return (orderByAquariums === 0 ? orderByDate : orderByAquariums);
     }));
   };
+
+  const editItem= (itemid) => {
+    router.push({name: 'editmetric', params: {id: itemid}});
+  }
+
+  async function DeleteMetric(id) {
+    await DataConnection.deleteMetricById(id);
+    alert(`Metric #${id} successfully deleted`);
+    location.reload();
+  }
 
   onBeforeMount(() => {
     getAquariums();
@@ -75,25 +86,22 @@
               <template v-slot:prepend>
                 <v-icon class="bg-primary" icon="mdi-certificate"></v-icon>
               </template>
-
               <template v-slot:append>
-                <router-link to="/editmetrics/${item.id}" custom
-                  v-slot="{ navigate }">
                   <v-btn
                     icon="mdi-pencil"
                     size="x-small"
                     variant="tonal"
                     class="mx-3"
                     color="success"
-                    @click="navigate"
+                    @click="editItem(item.id)"
                     role="link"
                   ></v-btn>
-                </router-link>
                 <v-btn
                   icon="mdi-trash-can-outline"
                   size="x-small"
                   variant="tonal"
                   color="error"
+                  @click="DeleteMetric(item.id)"
                 ></v-btn>
               </template>
             </v-list-item>
@@ -104,9 +112,7 @@
   </main>
 </template>
 <style scoped>
-
-.container{
-  margin-top:5rem;
-}
-
+  .container{
+    margin-top:5rem;
+  }
 </style>

@@ -46,7 +46,7 @@
     const submit = async () => {
         if ((rules) && (isFilledDay.value)) {
             await DataConnection.addMetric(newMetric.value);
-            alert(`Metric added ${JSON.stringify(newMetric.value)}`);
+            alert(`New metric #${newMetric.value.id} added`);
             location.reload();
         } else {
             alert('Please fill in all required fields')
@@ -185,7 +185,6 @@
                                         :rules="rules"
                                         label="PH"
                                         type="number"
-                                        suffix="mg/l"
                                         step="0.1" 
                                         max="99.9"
                                         min="0"

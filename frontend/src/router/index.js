@@ -23,8 +23,8 @@ const router = createRouter({
       component: AddMetricsView
     },
     {
-      path: '/editmetrics/:id',
-      name: 'editmetrics',
+      path: '/editmetric/:id',
+      name: 'editmetric',
       component: EditMetricsView
     }
   ]

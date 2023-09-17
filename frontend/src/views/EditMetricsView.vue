@@ -5,12 +5,14 @@
     import VueDatePicker from "@vuepic/vue-datepicker";
     import "@vuepic/vue-datepicker/dist/main.css";
     import { vMaska } from "maska"
+    import { useRouter, useRoute } from 'vue-router';
     
     const editedMetric = ref({
-    id: "",
+    id: '',
     day: '',
     nh3: '',
     no3: '',
+    no2: '',
     po4: '',
     gh: '',
     kh: '',
@@ -20,9 +22,12 @@
     }
     })
 
+    const router = useRouter();
+    const route = useRoute();
+    const metric = ref();
     const aquariums = ref();
-    const metrics = ref();
     const items = ref();
+    
         
     const rules = [
     value => {
@@ -36,7 +41,7 @@
 
     const isFilledDay = computed(() => {
         try {
-            return (newMetric.value.day.trim() !== '');
+            return (editedMetric.value.day.trim() !== '');
             }
         catch (error) {
             alert('Day is required')
@@ -45,9 +50,9 @@
 
     const submit = async () => {
         if ((rules) && (isFilledDay.value)) {
-            await DataConnection.addMetric(newMetric.value);
-            alert(`Metric updated ${JSON.stringify(editedMetric.value)}`);
-            location.reload();
+            await DataConnection.updateMetric(editedMetric.value.id, editedMetric.value);
+            alert(`Metric #${editedMetric.value.id} updated `);
+            router.push('/metrics');
         } else {
             alert('Please fill in all required fields')
         }
@@ -63,15 +68,26 @@
         })
     }
 
-    const getMetrics = async () => {
-        let response = await DataConnection.getAllMetrics();
-        metrics.value = response.data;
+    const getMetricById = async (id) => {
+        let response = await DataConnection.getMetricById(id);
+        metric.value = response.data;
+        editedMetric.value.id = metric.value.id;
+        editedMetric.value.day = metric.value.day;
+        editedMetric.value.nh3 = metric.value.nh3;
+        editedMetric.value.no3 = metric.value.no3;
+        editedMetric.value.no2 = metric.value.no2;
+        editedMetric.value.po4 = metric.value.po4;
+        editedMetric.value.gh = metric.value.gh;
+        editedMetric.value.kh = metric.value.kh;
+        editedMetric.value.ph = metric.value.ph;
+        editedMetric.value.aquariums.id = metric.value.aquariums.id;
+        console.log(editedMetric.value);
     };
 
-    onBeforeMount(() => {
-        getAquariums();
-        getMetrics();
-    })
+    onBeforeMount(async() => {
+        await getMetricById(route.params.id);
+        await getAquariums();
+    });
 
 </script>
 
@@ -88,11 +104,11 @@
             >
                 <v-card-item class="bg-orange-darken-1">
                     <v-card-title>
-                        Add new metric
+                        Edit metric
                     </v-card-title>
                     
                 </v-card-item>
-                <VueDatePicker v-model="newMetric.day" modelType="yyyy-MM-dd" dark></VueDatePicker>
+                <VueDatePicker v-model="editedMetric.day" modelType="yyyy-MM-dd" dark></VueDatePicker>
                 <v-divider></v-divider>
                 
                 <v-sheet class="mx-auto">
@@ -101,7 +117,7 @@
                             <v-row>
                                 <v-col>
                                     <v-text-field
-                                        v-model="newMetric.nh3"
+                                        v-model="editedMetric.nh3"
                                         :rules="rules"
                                         label="NH3"
                                         suffix="mg/l"
@@ -112,7 +128,7 @@
                                 </v-col>
                                 <v-col>
                                     <v-text-field
-                                        v-model="newMetric.no2"
+                                        v-model="editedMetric.no2"
                                         :rules="rules"
                                         label="NO2"
                                         type="number"
@@ -125,7 +141,7 @@
                                 </v-col>
                                 <v-col>
                                     <v-text-field
-                                        v-model="newMetric.no3"
+                                        v-model="editedMetric.no3"
                                         :rules="rules"
                                         label="NO3"
                                         type="number"
@@ -140,7 +156,7 @@
                             <v-row>
                                 <v-col>
                                     <v-text-field
-                                        v-model="newMetric.po4"
+                                        v-model="editedMetric.po4"
                                         :rules="rules"
                                         label="PO4"
                                         type="number"
@@ -153,7 +169,7 @@
                                 </v-col>
                                 <v-col>
                                     <v-text-field
-                                        v-model="newMetric.gh"
+                                        v-model="editedMetric.gh"
                                         :rules="rules"
                                         label="GH"
                                         type="number"
@@ -166,7 +182,7 @@
                                 </v-col>
                                 <v-col>
                                     <v-text-field
-                                        v-model="newMetric.kh"
+                                        v-model="editedMetric.kh"
                                         :rules="rules"
                                         label="KH"
                                         type="number"
@@ -181,11 +197,10 @@
                             <v-row>
                                 <v-col>
                                     <v-text-field
-                                        v-model="newMetric.ph"
+                                        v-model="editedMetric.ph"
                                         :rules="rules"
                                         label="PH"
                                         type="number"
-                                        suffix="mg/l"
                                         step="0.1" 
                                         max="99.9"
                                         min="0"
@@ -194,12 +209,11 @@
                                 </v-col>
                                 <v-col>
                                     <v-select
-                                        v-model="newMetric.aquariums.id"
+                                        v-model="editedMetric.aquariums.id"
                                         label="Aquarium"
                                         :items="aquariums"
                                         item-title="name"
                                         item-value="id"
-                                        id="selected"
                                         :rules="rules"
                                     >
                                     <template v-slot:item="{ props, item }">
@@ -209,10 +223,6 @@
                                     </v-select>
                                 </v-col>
                             </v-row>
-                            <v-row>
-                                
-                            </v-row>
-                           
                         </v-container>
 
                     <v-btn type="submit" block class="mt-2" @click = submit()>Save</v-btn>
