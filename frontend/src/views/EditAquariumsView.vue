@@ -2,32 +2,25 @@
     import DataConnection from '../services/DataConnection'
     import NavDecoration from '../components/NavDecoration.vue';
     import { ref, onBeforeMount, computed } from 'vue';
-    import VueDatePicker from "@vuepic/vue-datepicker";
     import "@vuepic/vue-datepicker/dist/main.css";
-    import { vMaska } from "maska"
+    //import { vMaska } from "maska"
     import { useRouter, useRoute } from 'vue-router';
     
-    const editedMetric = ref({
+    const editedAquarium = ref({
     id: '',
-    day: '',
-    nh3: '',
-    no3: '',
-    no2: '',
-    po4: '',
-    gh: '',
-    kh: '',
-    ph: '',
-    aquariums: {
-        id: '',
-    }
+    name: '',
+    anh3: '',
+    ano3: '',
+    ano2: '',
+    apo4: '',
+    agh: '',
+    akh: '',
+    aph: '',
     })
 
     const router = useRouter();
     const route = useRoute();
-    const metric = ref();
-    const aquariums = ref();
-    const items = ref();
-    
+    const aquarium = ref();
         
     const rules = [
     value => {
@@ -39,54 +32,41 @@
         },
     ]
 
-    const isFilledDay = computed(() => {
+    const isFilledName = computed(() => {
         try {
-            return (editedMetric.value.day.trim() !== '');
+            return (editedAquarium.value.name.trim() !== '');
             }
         catch (error) {
-            alert('Day is required')
+            alert('Name is required')
         }
     });
 
     const submit = async () => {
-        if ((rules) && (isFilledDay.value)) {
-            await DataConnection.updateMetric(editedMetric.value.id, editedMetric.value);
-            alert(`Metric #${editedMetric.value.id} updated `);
-            router.push('/metrics');
+        if ((rules) && (isFilledName.value)) {
+            await DataConnection.updateAquarium(editedAquarium.value.id, editedAquarium.value);
+            alert(`Aquarium #${editedAquarium.value.id} updated `);
+            router.push('/aquariums');
         } else {
             alert('Please fill in all required fields')
         }
     }
 
-    const getAquariums = async () => {
-        let response = await DataConnection.getAllAquariums();
-        aquariums.value = response.data;
-        items.value = response.data.map((item) => {
-        let itemfilter = [];
-        itemfilter.push(item.name);
-        return itemfilter;
-        })
-    }
-
-    const getMetricById = async (id) => {
-        let response = await DataConnection.getMetricById(id);
-        metric.value = response.data;
-        editedMetric.value.id = metric.value.id;
-        editedMetric.value.day = metric.value.day;
-        editedMetric.value.nh3 = metric.value.nh3;
-        editedMetric.value.no3 = metric.value.no3;
-        editedMetric.value.no2 = metric.value.no2;
-        editedMetric.value.po4 = metric.value.po4;
-        editedMetric.value.gh = metric.value.gh;
-        editedMetric.value.kh = metric.value.kh;
-        editedMetric.value.ph = metric.value.ph;
-        editedMetric.value.aquariums.id = metric.value.aquariums.id;
-        console.log(editedMetric.value);
+    const getAquariumById = async (id) => {
+        let response = await DataConnection.getAquariumById(id);
+        aquarium.value = response.data;
+        editedAquarium.value.id = aquarium.value.id;
+        editedAquarium.value.name = aquarium.value.name;
+        editedAquarium.value.anh3 = aquarium.value.anh3;
+        editedAquarium.value.ano3 = aquarium.value.ano3;
+        editedAquarium.value.ano2 = aquarium.value.ano2;
+        editedAquarium.value.apo4 = aquarium.value.apo4;
+        editedAquarium.value.agh = aquarium.value.agh;
+        editedAquarium.value.akh = aquarium.value.akh;
+        editedAquarium.value.aph = aquarium.value.aph;
     };
 
     onBeforeMount(async() => {
-        await getMetricById(route.params.id);
-        await getAquariums();
+        await getAquariumById(route.params.id);
     });
 
 </script>
@@ -97,19 +77,15 @@
     </header>
     <main>
         <div class="container">
-
             <v-card
             class="mx-auto"
             max-width="500"
-            
             >
                 <v-card-item class="bg-orange-darken-1">
                     <v-card-title>
-                        Edit metric
+                        Edit aquarium
                     </v-card-title>
                 </v-card-item>
-
-                <VueDatePicker v-model="editedMetric.day" modelType="yyyy-MM-dd"></VueDatePicker>
                 
                 <v-divider></v-divider>
                 
@@ -119,7 +95,16 @@
                             <v-row>
                                 <v-col>
                                     <v-text-field
-                                        v-model="editedMetric.nh3"
+                                    v-model="editedAquarium.name"
+                                    label="Name"
+                                    >
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedAquarium.anh3"
                                         :rules="rules"
                                         label="NH3"
                                         suffix="mg/l"
@@ -129,7 +114,7 @@
                                 </v-col>
                                 <v-col>
                                     <v-text-field
-                                        v-model="editedMetric.no2"
+                                        v-model="editedAquarium.ano2"
                                         :rules="rules"
                                         label="NO2"
                                         suffix="mg/l"
@@ -139,9 +124,19 @@
                                 </v-col>
                                 <v-col>
                                     <v-text-field
-                                        v-model="editedMetric.no3"
+                                        v-model="editedAquarium.ano3"
                                         :rules="rules"
                                         label="NO3"
+                                        suffix="mg/l"
+                                        step="0.1" 
+                                        v-maska data-maska="##.#"
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="editedAquarium.apo4"
+                                        :rules="rules"
+                                        label="PO4"
                                         suffix="mg/l"
                                         step="0.1" 
                                         v-maska data-maska="##.#"
@@ -151,17 +146,7 @@
                             <v-row>
                                 <v-col>
                                     <v-text-field
-                                        v-model="editedMetric.po4"
-                                        :rules="rules"
-                                        label="PO4"
-                                        suffix="mg/l"
-                                        step="0.1" 
-                                        v-maska data-maska="##.#"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col>
-                                    <v-text-field
-                                        v-model="editedMetric.gh"
+                                        v-model="editedAquarium.agh"
                                         :rules="rules"
                                         label="GH"
                                         suffix="mg/l"
@@ -171,7 +156,7 @@
                                 </v-col>
                                 <v-col>
                                     <v-text-field
-                                        v-model="editedMetric.kh"
+                                        v-model="editedAquarium.akh"
                                         :rules="rules"
                                         label="KH"
                                         suffix="mg/l"
@@ -179,33 +164,17 @@
                                         v-maska data-maska="##.#"
                                     ></v-text-field>
                                 </v-col>
-                            </v-row>
-                            <v-row>
                                 <v-col>
                                     <v-text-field
-                                        v-model="editedMetric.ph"
+                                        v-model="editedAquarium.aph"
                                         :rules="rules"
                                         label="PH"
                                         step="0.1" 
                                         v-maska data-maska="##.#"
                                     ></v-text-field>
                                 </v-col>
-                                <v-col>
-                                    <v-select
-                                        v-model="editedMetric.aquariums.id"
-                                        label="Aquarium"
-                                        :items="aquariums"
-                                        item-title="name"
-                                        item-value="id"
-                                        :rules="rules"
-                                    >
-                                    <template v-slot:item="{ props, item }">
-                                        <v-list-item v-bind="props" :subtitle="item.raw.id"></v-list-item>
-                                    </template>
-
-                                    </v-select>
-                                </v-col>
                             </v-row>
+                            
                         </v-container>
 
                     <v-btn type="submit" block class="mt-2" @click = submit()>Save</v-btn>
@@ -221,7 +190,7 @@
 
 <style>
     .container{
-        margin-top:2rem;
+        margin-top:3rem;
     }
     .dp__theme_light {
         --dp-background-color: #dde4e6;

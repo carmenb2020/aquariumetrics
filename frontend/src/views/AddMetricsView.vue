@@ -4,12 +4,13 @@
     import { ref, onBeforeMount, computed } from 'vue';
     import VueDatePicker from "@vuepic/vue-datepicker";
     import "@vuepic/vue-datepicker/dist/main.css";
-    import { vMaska } from "maska"
+    //import { vMaska } from "maska"
     
     const newMetric = ref({
     id: "",
     day: '',
     nh3: '',
+    no2:'',
     no3: '',
     po4: '',
     gh: '',
@@ -80,8 +81,7 @@
      <NavDecoration></NavDecoration>
     </header>
     <main>
-        <div class="container">
-
+        <v-container class="container">
             <v-card
             class="mx-auto"
             max-width="500"
@@ -90,9 +90,10 @@
                     <v-card-title>
                         Add new metric
                     </v-card-title>
-                    
                 </v-card-item>
-                <VueDatePicker v-model="newMetric.day" modelType="yyyy-MM-dd" dark></VueDatePicker>
+
+                <VueDatePicker v-model="newMetric.day" modelType="yyyy-MM-dd" ></VueDatePicker>
+
                 <v-divider></v-divider>
                 
                 <v-sheet class="mx-auto">
@@ -106,7 +107,6 @@
                                         label="NH3"
                                         suffix="mg/l"
                                         step="0.1" 
-                                        min="0"
                                         v-maska data-maska="##.#"
                                     ></v-text-field>
                                 </v-col>
@@ -115,11 +115,8 @@
                                         v-model="newMetric.no2"
                                         :rules="rules"
                                         label="NO2"
-                                        type="number"
                                         suffix="mg/l"
                                         step="0.1" 
-                                        max="99.9"
-                                        min="0"
                                         v-maska data-maska="##.#"
                                     ></v-text-field>
                                 </v-col>
@@ -128,11 +125,8 @@
                                         v-model="newMetric.no3"
                                         :rules="rules"
                                         label="NO3"
-                                        type="number"
                                         suffix="mg/l"
                                         step="0.1" 
-                                        max="99.9"
-                                        min="0"
                                         v-maska data-maska="##.#"
                                     ></v-text-field>
                                 </v-col>
@@ -143,11 +137,8 @@
                                         v-model="newMetric.po4"
                                         :rules="rules"
                                         label="PO4"
-                                        type="number"
                                         suffix="mg/l"
                                         step="0.1" 
-                                        max="99.9"
-                                        min="0"
                                         v-maska data-maska="##.#"
                                     ></v-text-field>
                                 </v-col>
@@ -156,11 +147,8 @@
                                         v-model="newMetric.gh"
                                         :rules="rules"
                                         label="GH"
-                                        type="number"
                                         suffix="mg/l"
                                         step="0.1" 
-                                        max="99.9"
-                                        min="0"
                                         v-maska data-maska="##.#"
                                     ></v-text-field>
                                 </v-col>
@@ -169,11 +157,8 @@
                                         v-model="newMetric.kh"
                                         :rules="rules"
                                         label="KH"
-                                        type="number"
                                         suffix="mg/l"
                                         step="0.1" 
-                                        max="99.9"
-                                        min="0"
                                         v-maska data-maska="##.#"
                                     ></v-text-field>
                                 </v-col>
@@ -184,10 +169,7 @@
                                         v-model="newMetric.ph"
                                         :rules="rules"
                                         label="PH"
-                                        type="number"
                                         step="0.1" 
-                                        max="99.9"
-                                        min="0"
                                         v-maska data-maska="##.#"
                                     ></v-text-field>
                                 </v-col>
@@ -211,22 +193,29 @@
                             <v-row>
                                 
                             </v-row>
-                           
                         </v-container>
 
-                    <v-btn type="submit" block class="mt-2" @click = submit()>Save</v-btn>
+                        <v-btn type="submit" block class="mt-2" @click = submit()>Save</v-btn>
+
                     </v-form>
                 </v-sheet>
 
             </v-card>
            
-        </div>
+        </v-container>
         
     </main>
 </template>
 
-<style scoped>
+<style>
     .container{
-        margin-top:5rem;
+        margin-top:2rem;
     }
+
+    .dp__theme_light {
+        --dp-background-color: #dde4e6;
+        --dp-icon-color: #09bcee;
+        --dp-cell-size: 25px;
+    }
+
 </style>

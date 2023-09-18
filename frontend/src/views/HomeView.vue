@@ -26,12 +26,17 @@
 
   const getAquariums = async () => {
     let response = await DataConnection.getAllAquariums();
-    aquariums.value = response.data
+    aquariums.value = response.data;
   };
 
   const getMetrics = async () => {
     let response = await DataConnection.getAllMetrics();
-    metrics.value = response.data
+    metrics.value = response.data;
+    metrics.value.sort(((a, b) => {
+      const orderByAquariums = (a.aquariums.id) - (b.aquariums.id);
+      const orderByDate = new Date(b.day).getDate() - new Date(a.day).getDate();
+      return (orderByAquariums === 0 ? orderByDate : orderByAquariums);
+    }));
   };
 
   onBeforeMount(() => 

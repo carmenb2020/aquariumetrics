@@ -40,18 +40,20 @@
 
         <v-app-bar-title>Aquarium Metrics</v-app-bar-title>
 
-        <v-btn value="aquariums">
-          <v-icon icon="mdi:mdi-fishbowl"></v-icon>
-          <span class="text-subtitle-1">Aquariums</span>
-        </v-btn>
-
-
+        <router-link to="/aquariums" custom
+          v-slot="{ navigate }">
+          <v-btn value="aquariums" @click="navigate"
+            role="link">
+            <v-icon icon="mdi:mdi-fishbowl"></v-icon>
+            <span class="text-subtitle-1">Aquariums</span>
+          </v-btn>
+        </router-link>
+          
         <router-link to="/metrics" custom
-                v-slot="{ navigate }">
+          v-slot="{ navigate }">
           <v-btn value="metrics" @click="navigate"
-                role="link">
-             <v-icon icon="mdi: mdi-waves">
-            </v-icon>
+            role="link">
+            <v-icon icon="mdi: mdi-waves"></v-icon>
             <span class="text-subtitle-1">Metrics</span>
           </v-btn>
         </router-link>

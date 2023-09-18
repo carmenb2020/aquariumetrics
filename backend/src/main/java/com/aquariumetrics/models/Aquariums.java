@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -23,29 +26,31 @@ public class Aquariums {
     @Column(name="name", nullable = false, length= 25)
     private String name;
 
-    @Column(name = "anh3", nullable = false, scale = 1, columnDefinition="Decimal(2,1) default '00.0'")
+    @Column(name = "anh3", nullable = false, scale = 1, columnDefinition="Decimal(3,1) default '00.0'")
     private Double anh3;
 
-    @Column(name = "ano2", nullable = false, scale = 1, columnDefinition="Decimal(2,1) default '00.0'")
+    @Column(name = "ano2", nullable = false, scale = 1, columnDefinition="Decimal(3,1) default '00.0'")
     private Double ano2;
 
-    @Column(name = "ano3", nullable = false, scale = 1, columnDefinition="Decimal(2,1) default '00.0'")
+    @Column(name = "ano3", nullable = false, scale = 1, columnDefinition="Decimal(3,1) default '00.0'")
     private Double ano3;
 
-    @Column(name = "apo4", nullable = false, scale = 1, columnDefinition="Decimal(2,1) default '00.0'")
+    @Column(name = "apo4", nullable = false, scale = 1, columnDefinition="Decimal(3,1) default '00.0'")
     private Double apo4;
 
-    @Column(name = "agh", nullable = false, scale = 1, columnDefinition="Decimal(2,1) default '00.0'")
+    @Column(name = "agh", nullable = false, scale = 1, columnDefinition="Decimal(3,1) default '00.0'")
     private Double agh;
 
-    @Column(name = "akh", nullable = false, scale = 1, columnDefinition="Decimal(2,1) default '00.0'")
+    @Column(name = "akh", nullable = false, scale = 1, columnDefinition="Decimal(3,1) default '00.0'")
     private Double akh;
 
-    @Column(name = "aph", nullable = false, scale = 1, columnDefinition="Decimal(2,1) default '00.0'")
+    @Column(name = "aph", nullable = false, scale = 1, columnDefinition="Decimal(3,1) default '00.0'")
     private Double aph;
-
-/*    @OneToMany(mappedBy = "aquariums", cascade = CascadeType.ALL, orphanRemoval = true)
+/*
+   @OneToMany(mappedBy = "aquariums", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Metrics> metricsList;
 
- */
+   @OneToMany(mappedBy = "aquariums", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+   private Set<Metrics> metrics = new HashSet<>();
+    */
 }
